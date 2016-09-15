@@ -42,7 +42,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableJpaRepositories(basePackages = "br.com.joaops.smt.repository")
 public class PersistenceConfig {
     
-    @Bean
+    /*@Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("org.postgresql.Driver");
@@ -50,7 +50,7 @@ public class PersistenceConfig {
         dataSource.setUsername("postgres");
         dataSource.setPassword("postgres");
         return dataSource;
-    }
+    }*/
     
     private Properties getAdditionalProperties() {
         Properties properties = new Properties();
@@ -58,6 +58,9 @@ public class PersistenceConfig {
         properties.setProperty("hibernate.format_sql", "true");
         properties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
         properties.setProperty("hibernate.hbm2ddl.auto", "create-drop"); //trocar por validate
+        properties.setProperty("hibernate.multiTenancy", "DATABASE");
+        properties.setProperty("hibernate.tenant_identifier_resolver", "br.com.joaops.smt.configuration.CurrentTenantIdentifierResolverImpl");
+        properties.setProperty("hibernate.multi_tenant_connection_provider", "br.com.joaops.smt.configuration.MultiTenantConnectionProvider");
         properties.setProperty("hibernate.hbm2ddl.import_files", "/META-INF/sql/system_module_data.sql, /META-INF/sql/system_user_data.sql, /META-INF/sql/system_user_permission.sql"); //Obs. O validate não realiza importação dos arquivos sql
         return properties;
     }
@@ -71,7 +74,7 @@ public class PersistenceConfig {
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-        em.setDataSource(dataSource());
+        //em.setDataSource(dataSource());
         em.setPackagesToScan(this.getPackagesToScan());
         
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();

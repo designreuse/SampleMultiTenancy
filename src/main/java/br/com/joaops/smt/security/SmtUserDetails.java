@@ -60,6 +60,17 @@ public class SmtUserDetails implements UserDetails, CredentialsContainer, Serial
         return this.getUser().getEmail();
     }
     
+    public String getDatabaseName() {
+        //return this.getUser().getSystemDatabase().getName(); //Como pegar o nome do banco de dados?
+        try {
+            System.out.println("Olá Mundo!"); //Procurar no Log
+            System.out.println(""+this.getUser().getSystemDatabase().getName());
+            System.out.println("Olá Mundo!");
+        } catch (Exception e) {
+        }
+        return "smt"; //nome do BD Compartilhado
+    }
+    
     @Override
     public boolean isAccountNonExpired() {
         if (this.getUser().getAccountCanExpire()) {
