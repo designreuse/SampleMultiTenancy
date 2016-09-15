@@ -34,7 +34,7 @@
                                 </thead>
                                 <tbody>
                                     <tr th:if="${page == null}">
-                                        <td colspan="2">Nenhuma Permissão Encontrada!</td>
+                                        <td colspan="4">Nenhuma Permissão Encontrada!</td>
                                     </tr>
                                     <tr th:if="${page != null}" th:each="permission : ${page}">
                                         <td th:text="${permission.systemUserPermissionId.systemUser.email}">E-Mail</td>

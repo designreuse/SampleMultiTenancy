@@ -31,6 +31,7 @@
                                 <li sec:authorize="hasAnyRole('ROLE_SYSTEM_USER_READ')"><a href="#" th:href="@{/system/user}" th:text="'User'" /></li>
                                 <li sec:authorize="hasAnyRole('ROLE_SYSTEM_MODULE_READ')"><a href="#" th:href="@{/system/module}" th:text="'Module'" /></li>
                                 <li sec:authorize="hasAnyRole('ROLE_SYSTEM_PERMISSION_READ')"><a href="#" th:href="@{/system/permission}" th:text="'Permission'" /></li>
+                                <li sec:authorize="hasAnyRole('ROLE_SYSTEM_DATABASE_READ')"><a href="#" th:href="@{/system/database}" th:text="'Database'" /></li>
                             </ul>
                         </li>
                     </ul>

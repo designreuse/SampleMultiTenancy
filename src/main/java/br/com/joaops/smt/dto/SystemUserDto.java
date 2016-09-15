@@ -40,6 +40,7 @@ public class SystemUserDto implements Serializable {
     private Date credentialExpiration;
     private Boolean enabled;
     private List<SystemUserPermissionDto> systemUserPermission;
+    private SystemDatabaseDto systemDatabase;
     
     public Long getId() {
         return id;
@@ -145,22 +146,31 @@ public class SystemUserDto implements Serializable {
         this.systemUserPermission = systemUserPermission;
     }
     
+    public SystemDatabaseDto getSystemDatabase() {
+        return systemDatabase;
+    }
+    
+    public void setSystemDatabase(SystemDatabaseDto systemDatabase) {
+        this.systemDatabase = systemDatabase;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 37 * hash + Objects.hashCode(this.id);
-        hash = 37 * hash + Objects.hashCode(this.firstName);
-        hash = 37 * hash + Objects.hashCode(this.middleName);
-        hash = 37 * hash + Objects.hashCode(this.lastName);
-        hash = 37 * hash + Objects.hashCode(this.email);
-        hash = 37 * hash + Objects.hashCode(this.password);
-        hash = 37 * hash + Objects.hashCode(this.accountCanExpire);
-        hash = 37 * hash + Objects.hashCode(this.accountExpiration);
-        hash = 37 * hash + Objects.hashCode(this.locked);
-        hash = 37 * hash + Objects.hashCode(this.credentialCanExpire);
-        hash = 37 * hash + Objects.hashCode(this.credentialExpiration);
-        hash = 37 * hash + Objects.hashCode(this.enabled);
-        hash = 37 * hash + Objects.hashCode(this.systemUserPermission);
+        hash = 71 * hash + Objects.hashCode(this.id);
+        hash = 71 * hash + Objects.hashCode(this.firstName);
+        hash = 71 * hash + Objects.hashCode(this.middleName);
+        hash = 71 * hash + Objects.hashCode(this.lastName);
+        hash = 71 * hash + Objects.hashCode(this.email);
+        hash = 71 * hash + Objects.hashCode(this.password);
+        hash = 71 * hash + Objects.hashCode(this.accountCanExpire);
+        hash = 71 * hash + Objects.hashCode(this.accountExpiration);
+        hash = 71 * hash + Objects.hashCode(this.locked);
+        hash = 71 * hash + Objects.hashCode(this.credentialCanExpire);
+        hash = 71 * hash + Objects.hashCode(this.credentialExpiration);
+        hash = 71 * hash + Objects.hashCode(this.enabled);
+        hash = 71 * hash + Objects.hashCode(this.systemUserPermission);
+        hash = 71 * hash + Objects.hashCode(this.systemDatabase);
         return hash;
     }
     
@@ -213,6 +223,9 @@ public class SystemUserDto implements Serializable {
             return false;
         }
         if (!Objects.equals(this.systemUserPermission, other.systemUserPermission)) {
+            return false;
+        }
+        if (!Objects.equals(this.systemDatabase, other.systemDatabase)) {
             return false;
         }
         return true;

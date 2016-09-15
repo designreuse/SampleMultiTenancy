@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-br">
     <head>
-        <title>System Module</title>
+        <title>System Database</title>
         <link rel="icon" href="resources/images/icon.gif" th:href="@{/resources/images/icon.gif}"/>
         <meta charset="utf-8"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -18,28 +18,28 @@
             <div class="container-fluid">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <div class="row-fluid user-row" sec:authorize="hasAnyRole('ROLE_SYSTEM_MODULE_ADD')">
-                            <a href="#" th:href="@{/system/module/add}">Add new module</a>
+                        <div class="row-fluid user-row" sec:authorize="hasAnyRole('ROLE_SYSTEM_DATABASE_ADD')">
+                            <a href="#" th:href="@{/system/database/add}">Add new database</a>
                         </div>
                     </div>
                     <div class="panel-body">
                         <div class="table-responsive">
                             <table class="table table-bordered table-condensed table-hover table-striped">
                                 <thead>
-                                    <th>Categoria</th>
-                                    <th>Nome</th>
-                                    <th>Ação</th>
+                                    <th>Id</th>
+                                    <th>Name</th>
+                                    <th>Action</th>
                                 </thead>
                                 <tbody>
                                     <tr th:if="${page == null}">
-                                        <td colspan="3">Nenhum Módulo Encontrado!</td>
+                                        <td colspan="3">Nenhuma database Encontrada!</td>
                                     </tr>
-                                    <tr th:if="${page != null}" th:each="module : ${page}">
-                                        <td th:text="${module.category}">Category</td>
-                                        <td th:text="${module.name}">Name</td>
+                                    <tr th:if="${page != null}" th:each="database : ${page}">
+                                        <td th:text="${database.id}">Id</td>
+                                        <td th:text="${database.name}">Name</td>
                                         <td>
-                                            <a href="#" th:href="@{'/system/module/edit/'+${module.id}}" sec:authorize="hasAnyRole('ROLE_SYSTEM_MODULE_EDIT')">Edit</a>
-                                            <a href="#" th:href="@{'/system/module/delete/'+${module.id}}" sec:authorize="hasAnyRole('ROLE_SYSTEM_MODULE_DELETE')">Delete</a>
+                                            <a href="#" th:href="@{'/system/database/edit/'+${database.id}}" sec:authorize="hasAnyRole('ROLE_SYSTEM_DATABASE_EDIT')">Edit</a>
+                                            <a href="#" th:href="@{'/system/database/delete/'+${database.id}}" sec:authorize="hasAnyRole('ROLE_SYSTEM_DATABASE_DELETE')">Delete</a>
                                         </td>
                                     </tr>
                                 </tbody>

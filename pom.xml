@@ -32,6 +32,7 @@
         <thymeleaf.version>3.0.0.RELEASE</thymeleaf.version>
         <logback.version>1.1.6</logback.version>
         <dozer.version>5.5.1</dozer.version>
+        <c3p0.version>0.9.5.2</c3p0.version>
         <netbeans.hint.license>gpl30</netbeans.hint.license>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -187,6 +188,12 @@
             <groupId>net.sf.dozer</groupId>
             <artifactId>dozer-spring</artifactId>
             <version>${dozer.version}</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.mchange</groupId>
+            <artifactId>c3p0</artifactId>
+            <version>${c3p0.version}</version>
         </dependency>
         
         <dependency>

@@ -29,6 +29,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -98,6 +100,10 @@ public class SystemUser implements Serializable {
     
     @OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true, mappedBy = "systemUserPermissionId.systemUser", fetch = FetchType.EAGER)
     private List<SystemUserPermission> systemUserPermission;
+    
+    @JoinColumn
+    @ManyToOne
+    private SystemDatabase systemDatabase;
     
     public Long getId() {
         return id;
@@ -203,22 +209,31 @@ public class SystemUser implements Serializable {
         this.systemUserPermission = systemUserPermission;
     }
     
+    public SystemDatabase getSystemDatabase() {
+        return systemDatabase;
+    }
+    
+    public void setSystemDatabase(SystemDatabase systemDatabase) {
+        this.systemDatabase = systemDatabase;
+    }
+    
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 89 * hash + Objects.hashCode(this.id);
-        hash = 89 * hash + Objects.hashCode(this.firstName);
-        hash = 89 * hash + Objects.hashCode(this.middleName);
-        hash = 89 * hash + Objects.hashCode(this.lastName);
-        hash = 89 * hash + Objects.hashCode(this.email);
-        hash = 89 * hash + Objects.hashCode(this.password);
-        hash = 89 * hash + Objects.hashCode(this.accountCanExpire);
-        hash = 89 * hash + Objects.hashCode(this.accountExpiration);
-        hash = 89 * hash + Objects.hashCode(this.locked);
-        hash = 89 * hash + Objects.hashCode(this.credentialCanExpire);
-        hash = 89 * hash + Objects.hashCode(this.credentialExpiration);
-        hash = 89 * hash + Objects.hashCode(this.enabled);
-        hash = 89 * hash + Objects.hashCode(this.systemUserPermission);
+        int hash = 7;
+        hash = 37 * hash + Objects.hashCode(this.id);
+        hash = 37 * hash + Objects.hashCode(this.firstName);
+        hash = 37 * hash + Objects.hashCode(this.middleName);
+        hash = 37 * hash + Objects.hashCode(this.lastName);
+        hash = 37 * hash + Objects.hashCode(this.email);
+        hash = 37 * hash + Objects.hashCode(this.password);
+        hash = 37 * hash + Objects.hashCode(this.accountCanExpire);
+        hash = 37 * hash + Objects.hashCode(this.accountExpiration);
+        hash = 37 * hash + Objects.hashCode(this.locked);
+        hash = 37 * hash + Objects.hashCode(this.credentialCanExpire);
+        hash = 37 * hash + Objects.hashCode(this.credentialExpiration);
+        hash = 37 * hash + Objects.hashCode(this.enabled);
+        hash = 37 * hash + Objects.hashCode(this.systemUserPermission);
+        hash = 37 * hash + Objects.hashCode(this.systemDatabase);
         return hash;
     }
     
@@ -271,6 +286,9 @@ public class SystemUser implements Serializable {
             return false;
         }
         if (!Objects.equals(this.systemUserPermission, other.systemUserPermission)) {
+            return false;
+        }
+        if (!Objects.equals(this.systemDatabase, other.systemDatabase)) {
             return false;
         }
         return true;
