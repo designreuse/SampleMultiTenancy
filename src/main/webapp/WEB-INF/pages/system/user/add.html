@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <title>Adicionar Usuário</title>
+        <link rel="icon" href="resources/images/icon.gif" th:href="@{/resources/images/icon.gif}"/>
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <meta name="description" content="Sample Multi Tenancy"/>
+        <meta name="author" content="João Paulo Siqueira"/>
+        <link rel="stylesheet" href="resources/css/bootstrap.min.css" th:href="@{/resources/css/bootstrap.min.css}" />
+        <link rel="stylesheet" href="resources/css/bootstrap-theme.min.css" th:href="@{/resources/css/bootstrap-theme.min.css}" />
+        <link rel="stylesheet" href="resources/css/css.css" th:href="@{/resources/css/css.css}" />
+    </head>
+    <body>
+        <nav th:replace="fragments/navbar :: navbar"> </nav>
+        <div id="container" class="ajusta-navbar">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-6 col-md-offset-3">
+                        <form action="#" th:action="@{/system/user/save}" th:object="${sysuser}" method="post">
+                            <fieldset>
+                                <input type="text" hidden="hidden" th:value="*{id}" th:field="*{id}" />
+                                <div>
+                                    <label th:text="'Primeiro nome'">firstName</label>
+                                    <div>
+                                        <input type="text" th:value="*{firstName}" th:field="*{firstName}" />
+                                        <p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">firstName error</p> 
+                                    </div>
+                                </div>
+                                <div>
+                                    <label th:text="'Nome do meio'">middleName</label>
+                                    <div>
+                                        <input type="text" th:value="*{middleName}" th:field="*{middleName}" />
+                                        <p th:if="${#fields.hasErrors('middleName')}" th:errors="*{middleName}">middleName error</p> 
+                                    </div>
+                                </div>
+                                <div>
+                                    <label th:text="'Último nome'">lastName</label>
+                                    <div>
+                                        <input type="text" th:value="*{lastName}" th:field="*{lastName}" />
+                                        <p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">lastName error</p> 
+                                    </div>
+                                </div>
+                                <div>
+                                    <label th:text="'E-Mail'">email</label>
+                                    <div>
+                                        <input type="text" th:value="*{email}" th:field="*{email}" />
+                                        <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}">email error</p> 
+                                    </div>
+                                </div>
+                                <div>
+                                    <label th:text="'Confirmar E-Mail'">confirmEmail</label>
+                                    <div>
+                                        <input type="text" th:value="*{confirmEmail}" th:field="*{confirmEmail}" />
+                                        <p th:if="${#fields.hasErrors('confirmEmail')}" th:errors="*{confirmEmail}">confirmEmail error</p> 
+                                    </div>
+                                </div>
+                                <div>
+                                    <label th:text="'Senha'">password</label>
+                                    <div>
+                                        <input type="password" th:value="*{password}" th:field="*{password}" />
+                                        <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}">password error</p> 
+                                    </div>
+                                </div>
+                                <div>
+                                    <label th:text="'Confirmar Senha'">confirmPassword</label>
+                                    <div>
+                                        <input type="password" th:value="*{confirmPassword}" th:field="*{confirmPassword}" />
+                                        <p th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}">confirmPassword error</p> 
+                                    </div>
+                                </div>
+                                <div>
+                                    <label th:text="'Ativo'">enabled</label>
+                                    <div>
+                                        <input type="checkbox" th:checked="*{enabled}" th:field="*{enabled}" />
+                                        <p th:if="${#fields.hasErrors('enabled')}" th:errors="*{enabled}">enabled error</p> 
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <div>
+                                <div>
+                                    <button type="submit" name="action" value="submit">Save</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="resources/js/jquery.min.js" th:src="@{/resources/js/jquery.min.js}"></script>
+        <script src="resources/js/npm.js" th:src="@{/resources/js/npm.js}"></script>
+        <script src="resources/js/bootstrap.min.js" th:src="@{/resources/js/bootstrap.min.js}"></script>
+    </body>
+</html>

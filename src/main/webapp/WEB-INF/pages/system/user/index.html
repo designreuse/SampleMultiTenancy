@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <title>System User</title>
+        <link rel="icon" href="resources/images/icon.gif" th:href="@{/resources/images/icon.gif}"/>
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <meta name="description" content="Sample Multi Tenancy"/>
+        <meta name="author" content="João Paulo Siqueira"/>
+        <link rel="stylesheet" href="resources/css/bootstrap.min.css" th:href="@{/resources/css/bootstrap.min.css}" />
+        <link rel="stylesheet" href="resources/css/bootstrap-theme.min.css" th:href="@{/resources/css/bootstrap-theme.min.css}" />
+        <link rel="stylesheet" href="resources/css/css.css" th:href="@{/resources/css/css.css}" />
+    </head>
+    <body>
+        <nav th:replace="fragments/navbar :: navbar" />
+        <div id="container" class="ajusta-navbar">
+            <div class="container-fluid">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="row-fluid user-row" sec:authorize="hasAnyRole('ROLE_SYSTEM_USER_ADD')">
+                            <a href="#" th:href="@{/system/user/add}">Add new user</a>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-condensed table-hover table-striped">
+                                <thead>
+                                    <th>Sobrenome, Nome</th>
+                                    <th>E-Mail</th>
+                                    <th>Senha</th>
+                                    <th>Ativo</th>
+                                    <th>Ações</th>
+                                </thead>
+                                <tbody>
+                                    <tr th:if="${page == null}">
+                                        <td colspan="4">Nenhum Usuário Encontrado!</td>
+                                    </tr>
+                                    <tr th:if="${page != null}" th:each="user : ${page}">
+                                        <td th:text="${user.lastName} + ', ' + ${user.firstName}">Sobrenome, Nome</td>
+                                        <td th:text="${user.email}">E-Mail</td>
+                                        <td th:text="${user.password}">Senha</td>
+                                        <td th:text="${user.enabled}? 'active' : 'inactive'">Ativo</td>
+                                        <td>
+                                            <div class="pull-right action-buttons">
+                                                <a href="#" th:href="@{'/system/user/edit/'+${user.id}}" sec:authorize="hasAnyRole('ROLE_SYSTEM_USER_EDIT')">Edit</a>
+                                                <a href="#" th:href="@{'/system/user/delete/'+${user.id}}" sec:authorize="hasAnyRole('ROLE_SYSTEM_USER_DELETE')">Delete</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="resources/js/jquery.min.js" th:src="@{/resources/js/jquery.min.js}"></script>
+        <script src="resources/js/npm.js" th:src="@{/resources/js/npm.js}"></script>
+        <script src="resources/js/bootstrap.min.js" th:src="@{/resources/js/bootstrap.min.js}"></script>
+    </body>
+</html>

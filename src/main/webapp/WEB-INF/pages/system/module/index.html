@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <title>System Module</title>
+        <link rel="icon" href="resources/images/icon.gif" th:href="@{/resources/images/icon.gif}"/>
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <meta name="description" content="Sample Multi Tenancy"/>
+        <meta name="author" content="João Paulo Siqueira"/>
+        <link rel="stylesheet" href="resources/css/bootstrap.min.css" th:href="@{/resources/css/bootstrap.min.css}" />
+        <link rel="stylesheet" href="resources/css/bootstrap-theme.min.css" th:href="@{/resources/css/bootstrap-theme.min.css}" />
+        <link rel="stylesheet" href="resources/css/css.css" th:href="@{/resources/css/css.css}" />
+    </head>
+    <body>
+        <nav th:replace="fragments/navbar :: navbar" />
+        <div id="container" class="ajusta-navbar">
+            <div class="container-fluid">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="row-fluid user-row" sec:authorize="hasAnyRole('ROLE_SYSTEM_MODULE_ADD')">
+                            <a href="#" th:href="@{/system/module/add}">Add new module</a>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-condensed table-hover table-striped">
+                                <thead>
+                                    <th>Categoria</th>
+                                    <th>Nome</th>
+                                    <th>Ação</th>
+                                </thead>
+                                <tbody>
+                                    <tr th:if="${page == null}">
+                                        <td colspan="2">Nenhum Módulo Encontrado!</td>
+                                    </tr>
+                                    <tr th:if="${page != null}" th:each="module : ${page}">
+                                        <td th:text="${module.category}">Category</td>
+                                        <td th:text="${module.name}">Name</td>
+                                        <td>
+                                            <a href="#" th:href="@{'/system/module/edit/'+${module.id}}" sec:authorize="hasAnyRole('ROLE_SYSTEM_MODULE_EDIT')">Edit</a>
+                                            <a href="#" th:href="@{'/system/module/delete/'+${module.id}}" sec:authorize="hasAnyRole('ROLE_SYSTEM_MODULE_DELETE')">Delete</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="resources/js/jquery.min.js" th:src="@{/resources/js/jquery.min.js}"></script>
+        <script src="resources/js/npm.js" th:src="@{/resources/js/npm.js}"></script>
+        <script src="resources/js/bootstrap.min.js" th:src="@{/resources/js/bootstrap.min.js}"></script>
+    </body>
+</html>

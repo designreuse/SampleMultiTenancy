@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <title>System Permission</title>
+        <link rel="icon" href="resources/images/icon.gif" th:href="@{/resources/images/icon.gif}"/>
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <meta name="description" content="Sample Multi Tenancy"/>
+        <meta name="author" content="João Paulo Siqueira"/>
+        <link rel="stylesheet" href="resources/css/bootstrap.min.css" th:href="@{/resources/css/bootstrap.min.css}" />
+        <link rel="stylesheet" href="resources/css/bootstrap-theme.min.css" th:href="@{/resources/css/bootstrap-theme.min.css}" />
+        <link rel="stylesheet" href="resources/css/css.css" th:href="@{/resources/css/css.css}" />
+    </head>
+    <body>
+        <nav th:replace="fragments/navbar :: navbar" />
+        <div id="container" class="ajusta-navbar">
+            <div class="container-fluid">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="row-fluid user-row" sec:authorize="hasAnyRole('ROLE_SYSTEM_PERMISSION_ADD')">
+                            <a href="#" th:href="@{/system/permission/add}">Relacionar Nova Permissão</a>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-condensed table-hover table-striped">
+                                <thead>
+                                    <th>Usuário</th>
+                                    <th>Categoria</th>
+                                    <th>Módulo</th>
+                                    <th>Permissões</th>
+                                    <th>Ação</th>
+                                </thead>
+                                <tbody>
+                                    <tr th:if="${page == null}">
+                                        <td colspan="2">Nenhuma Permissão Encontrada!</td>
+                                    </tr>
+                                    <tr th:if="${page != null}" th:each="permission : ${page}">
+                                        <td th:text="${permission.systemUserPermissionId.systemUser.email}">E-Mail</td>
+                                        <td th:text="${permission.systemUserPermissionId.systemModule.category}">Categoria</td>
+                                        <td th:text="${permission.systemUserPermissionId.systemModule.name}">Nome</td>
+                                        <td>
+                                            <span th:text="${permission.read} ? 'READ ' : ''"/>
+                                            <span th:text="${permission.add} ? 'ADD ' : ''"/>
+                                            <span th:text="${permission.edit} ? 'EDIT ' : ''"/>
+                                            <span th:text="${permission.delete} ? 'DELETE' : ''"/>
+                                        </td>
+                                        <td>
+                                            <div class="pull-right action-buttons">
+                                                <a href="#" th:href="@{'/system/permission/edit/'+${permission.systemUserPermissionId.systemUser.id}}" sec:authorize="hasAnyRole('ROLE_SYSTEM_PERMISSION_EDIT')">Edit</a>
+                                                
+                                                <a href="#" th:href="@{'/system/permission/delete/'+${permission.systemUserPermissionId.systemUser.id}+'/'+${permission.systemUserPermissionId.systemModule.id}}" sec:authorize="hasAnyRole('ROLE_SYSTEM_PERMISSION_DELETE')">Delete</a>
+                                                
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="resources/js/jquery.min.js" th:src="@{/resources/js/jquery.min.js}"></script>
+        <script src="resources/js/npm.js" th:src="@{/resources/js/npm.js}"></script>
+        <script src="resources/js/bootstrap.min.js" th:src="@{/resources/js/bootstrap.min.js}"></script>
+    </body>
+</html>
