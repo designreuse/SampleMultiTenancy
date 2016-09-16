@@ -16,60 +16,34 @@
  */
 package br.com.joaops.smt.configuration;
 
-import com.mchange.v2.c3p0.C3P0Registry;
-import com.mchange.v2.c3p0.ComboPooledDataSource;
-import com.mchange.v2.c3p0.PooledDataSource;
-import javax.sql.DataSource;
-import org.hibernate.engine.jdbc.connections.spi.AbstractDataSourceBasedMultiTenantConnectionProviderImpl;
+import java.util.Arrays;
+import java.util.HashMap;
+import org.hibernate.engine.jdbc.connections.spi.AbstractMultiTenantConnectionProvider;
+import org.hibernate.engine.jdbc.connections.spi.ConnectionProvider;
 
 /**
  *
  * @author João Paulo
  */
-public class MultiTenantConnectionProvider extends AbstractDataSourceBasedMultiTenantConnectionProviderImpl {
+public class MultiTenantConnectionProvider extends AbstractMultiTenantConnectionProvider {
     
-    private ComboPooledDataSource defaulDataSource;
+    private HashMap<String, ConnectionProvider> connProviderMap = new HashMap<>();
     
     public MultiTenantConnectionProvider() {
-        System.out.println("Olá Mundo!!! - MultiTenantConnectionProvider()");
-        defaulDataSource = new ComboPooledDataSource("smt");
-        defaulDataSource.setJdbcUrl("jdbc:postgresql://localhost/smt");
-        defaulDataSource.setUser("postgres");
-        defaulDataSource.setPassword("postgres");
-        defaulDataSource.setInitialPoolSize(16);
-        defaulDataSource.setMaxConnectionAge(10000);
-        try {
-            defaulDataSource.setDriverClass("org.postgresql.Driver");
-        } catch (Exception e) {
-            System.err.println("[ERRO MultiTenantConnectionProvider()]: "+e);
+        for (String providerName : Arrays.asList(new String[]{"master", "tenant1", "tenant2"})) {
+            System.out.println("Creating connection pools: " + providerName);
+            connProviderMap.put(providerName, new MyConnectionProviderImpl(providerName));
         }
     }
     
     @Override
-    protected DataSource selectAnyDataSource() {
-        System.out.println("Olá Mundo!!! - selectAnyDataSource()");
-        return defaulDataSource;
+    protected ConnectionProvider getAnyConnectionProvider() {
+        return connProviderMap.get("master");
     }
     
     @Override
-    protected DataSource selectDataSource(String tenantIdentifier) {
-        PooledDataSource pds = C3P0Registry.pooledDataSourceByName(tenantIdentifier);
-        if (pds == null) {
-            ComboPooledDataSource cpds = new ComboPooledDataSource(tenantIdentifier);
-            //cpds.setJdbcUrl("jdbc:postgresql://localhost;databaseName="+tenantIdentifier);
-            cpds.setJdbcUrl("jdbc:postgresql://localhost/"+tenantIdentifier);
-            cpds.setUser("postgres");
-            cpds.setPassword("postgres");
-            cpds.setInitialPoolSize(16);
-            cpds.setMaxConnectionAge(10000);
-            try {
-                cpds.setDriverClass("org.postgresql.Driver");
-            } catch (Exception e) {
-                System.err.println("[ERRO MultiTenantConnectionProvider()]: "+e);
-            }
-            return cpds;
-        }
-        return pds;
+    protected ConnectionProvider selectConnectionProvider(String str) {
+        return connProviderMap.get(str) != null ? connProviderMap.get(str) : new MyConnectionProviderImpl("master");
     }
     
 }

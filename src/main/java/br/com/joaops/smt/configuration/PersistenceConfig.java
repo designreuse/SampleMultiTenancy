@@ -52,25 +52,6 @@ public class PersistenceConfig {
         return dataSource;
     }*/
     
-    private Properties getAdditionalProperties() {
-        Properties properties = new Properties();
-        properties.setProperty("hibernate.show_sql", "false");
-        properties.setProperty("hibernate.format_sql", "true");
-        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
-        properties.setProperty("hibernate.hbm2ddl.auto", "create-drop"); //trocar por validate
-        properties.setProperty("hibernate.multiTenancy", "DATABASE");
-        properties.setProperty("hibernate.tenant_identifier_resolver", "br.com.joaops.smt.configuration.CurrentTenantIdentifierResolverImpl");
-        properties.setProperty("hibernate.multi_tenant_connection_provider", "br.com.joaops.smt.configuration.MultiTenantConnectionProvider");
-        properties.setProperty("hibernate.hbm2ddl.import_files", "/META-INF/sql/system_module_data.sql, /META-INF/sql/system_user_data.sql, /META-INF/sql/system_user_permission.sql"); //Obs. O validate não realiza importação dos arquivos sql
-        return properties;
-    }
-    
-    private String[] getPackagesToScan() { //Informa os Pacotes Que Devem Ser Scaneados
-        List<String> packages = new ArrayList<>();
-        packages.add("br.com.joaops.smt.model");
-        return packages.toArray(new String[packages.size()]);
-    }
-    
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
@@ -82,6 +63,26 @@ public class PersistenceConfig {
         em.setJpaProperties(getAdditionalProperties());
         
         return em;
+    }
+    
+    private String[] getPackagesToScan() { //Informa os Pacotes Que Devem Ser Scaneados
+        List<String> packages = new ArrayList<>();
+        packages.add("br.com.joaops.smt.model");
+        return packages.toArray(new String[packages.size()]);
+    }
+    
+    private Properties getAdditionalProperties() {
+        Properties properties = new Properties();
+        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
+        properties.setProperty("hibernate.show_sql", "false");
+        properties.setProperty("hibernate.format_sql", "true");
+        //properties.setProperty("hibernate.hbm2ddl.auto", "create-drop"); //trocar por validate //o multi=tenancy não suporta criar as tabelas em tempo de execução!
+        //properties.setProperty("hibernate.hbm2ddl.import_files", "/META-INF/sql/create_table.sql, /META-INF/sql/system_module_data.sql, /META-INF/sql/system_user_data.sql, /META-INF/sql/system_user_permission.sql"); //Obs. O validate não realiza importação dos arquivos sql
+        
+        properties.setProperty("hibernate.tenant_identifier_resolver", CurrentTenantIdentifierResolverImpl.class.getName());
+        properties.setProperty("hibernate.multi_tenant_connection_provider", MultiTenantConnectionProvider.class.getName());
+        properties.setProperty("hibernate.multiTenancy", "DATABASE");
+        return properties;
     }
     
     @Bean

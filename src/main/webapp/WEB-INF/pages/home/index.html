@@ -15,7 +15,33 @@
         <nav th:replace="fragments/navbar :: navbar" />
         <div id="container" class="ajusta-navbar">
             <div class="container-fluid">
-                
+                <div th:if="${user!=null}">
+                    <label th:text="${user.firstName}"/>
+                    <br/>
+                    <label th:text="${user.email}"/>
+                    <br/>
+                    <label th:text="${user.password}"/>
+                    <br/>
+                    <label th:text="${user.systemDatabase.name}"/>
+                </div>
+                <div th:if="${empresas!=null}">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-condensed table-hover table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Razão Social</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="empresa : ${empresas}">
+                                    <td th:text="${empresa.id}">ID</td>
+                                    <td th:text="${empresa.razaoSocial}">Razão Social</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
         <script src="resources/js/jquery.min.js" th:src="@{/resources/js/jquery.min.js}"></script>
