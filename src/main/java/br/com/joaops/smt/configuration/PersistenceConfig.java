@@ -77,7 +77,7 @@ public class PersistenceConfig {
         properties.setProperty("hibernate.show_sql", "false");
         properties.setProperty("hibernate.format_sql", "true");
         //properties.setProperty("hibernate.hbm2ddl.auto", "create-drop"); //trocar por validate //o multi=tenancy não suporta criar as tabelas em tempo de execução!
-        //properties.setProperty("hibernate.hbm2ddl.import_files", "/META-INF/sql/create_table.sql, /META-INF/sql/system_module_data.sql, /META-INF/sql/system_user_data.sql, /META-INF/sql/system_user_permission.sql"); //Obs. O validate não realiza importação dos arquivos sql
+        //properties.setProperty("hibernate.hbm2ddl.import_files", "/META-INF/sql/system_module_data.sql, /META-INF/sql/system_user_data.sql, /META-INF/sql/system_user_permission_data.sql"); //Obs. O validate não realiza importação dos arquivos sql
         
         properties.setProperty("hibernate.tenant_identifier_resolver", CurrentTenantIdentifierResolverImpl.class.getName());
         properties.setProperty("hibernate.multi_tenant_connection_provider", MultiTenantConnectionProvider.class.getName());
