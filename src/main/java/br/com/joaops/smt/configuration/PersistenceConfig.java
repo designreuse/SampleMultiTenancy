@@ -71,13 +71,30 @@ public class PersistenceConfig {
         return packages.toArray(new String[packages.size()]);
     }
     
+    private String importFiles() {
+        String files;
+        files = "/META-INF/sql/sequences.sql, "+
+                "/META-INF/sql/empresa.sql, "+
+                "/META-INF/sql/system_database.sql, "+
+                "/META-INF/sql/system_module.sql, "+
+                "/META-INF/sql/system_user.sql, "+
+                "/META-INF/sql/system_user_permission.sql, "+
+                "/META-INF/sql/empresa_data.sql, "+
+                "/META-INF/sql/system_database_data.sql, "+
+                "/META-INF/sql/system_module_data.sql, "+
+                "/META-INF/sql/system_user_data.sql, "+
+                "/META-INF/sql/system_user_permission_data.sql";
+        return files;
+    }
+    
     private Properties getAdditionalProperties() {
         Properties properties = new Properties();
         properties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
         properties.setProperty("hibernate.show_sql", "false");
         properties.setProperty("hibernate.format_sql", "true");
-        //properties.setProperty("hibernate.hbm2ddl.auto", "create-drop"); //trocar por validate //o multi=tenancy não suporta criar as tabelas em tempo de execução!
-        //properties.setProperty("hibernate.hbm2ddl.import_files", "/META-INF/sql/system_module_data.sql, /META-INF/sql/system_user_data.sql, /META-INF/sql/system_user_permission_data.sql"); //Obs. O validate não realiza importação dos arquivos sql
+        //o multi-tenancy não suporta hibernate.hbm2ddl.auto nem hibernate.hbm2ddl.import_files, o BD deve ser criado na mão
+        //properties.setProperty("hibernate.hbm2ddl.auto", "create-drop"); //trocar por validate
+        //properties.setProperty("hibernate.hbm2ddl.import_files", importFiles()); //Obs. O validate não realiza importação dos arquivos sql
         
         properties.setProperty("hibernate.tenant_identifier_resolver", CurrentTenantIdentifierResolverImpl.class.getName());
         properties.setProperty("hibernate.multi_tenant_connection_provider", MultiTenantConnectionProvider.class.getName());
