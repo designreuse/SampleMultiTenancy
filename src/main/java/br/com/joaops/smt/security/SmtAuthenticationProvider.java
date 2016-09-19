@@ -29,6 +29,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.SpringSecurityMessageSource;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -92,7 +94,17 @@ public class SmtAuthenticationProvider implements AuthenticationProvider {
             throw new CredentialsExpiredException(message);
         }
         
-        return new UsernamePasswordAuthenticationToken(user, user.getPassword(),user.getAuthorities());
+        Authentication authentication = new UsernamePasswordAuthenticationToken(user, user.getPassword(),user.getAuthorities());
+        
+        //SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_GLOBAL);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        System.out.println(".");
+        System.out.println(".");
+        System.out.println("Salvando Autenticação!");
+        System.out.println(".");
+        System.out.println(".");
+        
+        return authentication;
     }
     
     @Override

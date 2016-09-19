@@ -18,6 +18,7 @@ package br.com.joaops.smt.configuration;
 
 import br.com.joaops.smt.security.SmtAuthenticationProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -56,6 +57,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
+                .antMatchers("/").authenticated()
                 .antMatchers("/login/**").permitAll()
                 .antMatchers("/logout/**").permitAll()
                 .antMatchers("/system/user").hasRole("SYSTEM_USER_READ")
