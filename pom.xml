@@ -8,7 +8,7 @@
     <packaging>war</packaging>
 
     <name>SampleMultiTenancy</name>
-    <description>Implementando Um Exemple De Uma Aplicação Com Multi Tenancy Do Tipo Schema Compartilhado No Spring Framework</description>
+    <description>Implementando Um Exemple De Uma Aplicação Com Multi Tenancy Do Tipo Banco de Dados Compartilhado No Spring Framework</description>
     <url>http://swt-joaops.rhcloud.com/</url>
     
     <developers>
