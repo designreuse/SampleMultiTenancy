@@ -30,14 +30,8 @@ public class CurrentTenantIdentifierResolverImpl implements CurrentTenantIdentif
     @Override
     public String resolveCurrentTenantIdentifier() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println("Olá Mundo!");
-        if (authentication == null) {
-            System.out.println("Continua Null");
-        }
         String database = "master"; //nome do BD
-        //Não está conseguindo retornar a autenticação, é retornado null todas as vezes!
         if (authentication != null && authentication.getPrincipal() instanceof SmtUserDetails) {
-            System.out.println("Olá Mundo!!!");
             SmtUserDetails user = (SmtUserDetails) authentication.getPrincipal();
             database = user.getDatabaseName();
             System.out.println(".");

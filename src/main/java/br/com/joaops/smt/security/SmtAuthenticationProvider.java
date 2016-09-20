@@ -93,17 +93,7 @@ public class SmtAuthenticationProvider implements AuthenticationProvider {
             throw new CredentialsExpiredException(message);
         }
         
-        Authentication authentication = new UsernamePasswordAuthenticationToken(user, user.getPassword(),user.getAuthorities());
-        
-        //SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_INHERITABLETHREADLOCAL);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        System.out.println(".");
-        System.out.println(".");
-        System.out.println("Salvando Autenticação!");
-        System.out.println(".");
-        System.out.println(".");
-        
-        return authentication;
+        return new UsernamePasswordAuthenticationToken(user, user.getPassword(),user.getAuthorities());
     }
     
     @Override
