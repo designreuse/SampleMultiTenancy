@@ -16,6 +16,8 @@
  */
 package br.com.joaops.smt.service;
 
+import br.com.joaops.smt.configuration.MultiTenantConnectionProvider;
+import br.com.joaops.smt.configuration.MyConnectionProviderImpl;
 import br.com.joaops.smt.dto.SystemDatabaseDto;
 import br.com.joaops.smt.model.SystemDatabase;
 import java.util.ArrayList;
@@ -27,6 +29,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import br.com.joaops.smt.repository.SystemDatabaseRepository;
+import br.com.joaops.smt.util.DataBaseUtil;
 
 /**
  *
@@ -55,6 +58,10 @@ public class SystemDatabaseServiceImpl implements SystemDatabaseService {
         if (systemDatabase != null) {
             saved = new SystemDatabaseDto();
             mapper.map(systemDatabase, saved);
+            if (!DataBaseUtil.DatabaseExist(systemDatabase.getName())) {
+                DataBaseUtil.createDatabase(systemDatabase.getName());
+                MultiTenantConnectionProvider.getConnProviderMap().put(systemDatabase.getName(), new MyConnectionProviderImpl(systemDatabase.getName()));
+            }
         }
         return saved;
     }
@@ -91,6 +98,18 @@ public class SystemDatabaseServiceImpl implements SystemDatabaseService {
         SystemDatabase systemDatabase = new SystemDatabase();
         mapper.map(systemDatabaseDto, systemDatabase);
         systemDatabaseRepository.delete(systemDatabase);
+    }
+    
+    @Override
+    public List<SystemDatabaseDto> searchAllSystemDatabase() {
+        List<SystemDatabaseDto> list = new ArrayList<>();
+        Iterable<SystemDatabase> databases = systemDatabaseRepository.findAll();
+        for (SystemDatabase database : databases) {
+            SystemDatabaseDto dto = new SystemDatabaseDto();
+            mapper.map(database, dto);
+            list.add(dto);
+        }
+        return list;
     }
     
     @Override

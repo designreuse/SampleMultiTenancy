@@ -17,6 +17,7 @@
 package br.com.joaops.smt.service;
 
 import br.com.joaops.smt.dto.SystemDatabaseDto;
+import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -32,6 +33,7 @@ public interface SystemDatabaseService {
     public SystemDatabaseDto findOne(Long id);
     public void delete(Long id);
     public void delete(SystemDatabaseDto systemDatabaseDto);
+    public List<SystemDatabaseDto> searchAllSystemDatabase();
     public Page<SystemDatabaseDto> searchAllSystemDatabase(Pageable p);
     
 }

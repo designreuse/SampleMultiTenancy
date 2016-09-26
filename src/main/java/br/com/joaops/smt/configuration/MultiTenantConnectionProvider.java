@@ -16,10 +16,16 @@
  */
 package br.com.joaops.smt.configuration;
 
+import br.com.joaops.smt.dto.SystemDatabaseDto;
+import br.com.joaops.smt.service.SystemDatabaseService;
+import br.com.joaops.smt.util.DataBaseUtil;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import org.hibernate.engine.jdbc.connections.spi.AbstractMultiTenantConnectionProvider;
 import org.hibernate.engine.jdbc.connections.spi.ConnectionProvider;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  *
@@ -27,10 +33,11 @@ import org.hibernate.engine.jdbc.connections.spi.ConnectionProvider;
  */
 public class MultiTenantConnectionProvider extends AbstractMultiTenantConnectionProvider {
     
-    private HashMap<String, ConnectionProvider> connProviderMap = new HashMap<>();
+    private static HashMap<String, ConnectionProvider> connProviderMap = new HashMap<>();
     
     public MultiTenantConnectionProvider() {
-        for (String providerName : Arrays.asList(new String[]{"master", "tenant1", "tenant2"})) {
+        List<String> databases = DataBaseUtil.getListDatabaseFromMaster(); //Pegar a Lista de BDs a partir do BD master
+        for (String providerName : databases) {
             System.out.println("Creating connection pools: " + providerName);
             connProviderMap.put(providerName, new MyConnectionProviderImpl(providerName));
         }
@@ -44,6 +51,10 @@ public class MultiTenantConnectionProvider extends AbstractMultiTenantConnection
     @Override
     protected ConnectionProvider selectConnectionProvider(String str) {
         return connProviderMap.get(str) != null ? connProviderMap.get(str) : new MyConnectionProviderImpl("master");
+    }
+    
+    public static HashMap<String, ConnectionProvider> getConnProviderMap() {
+        return connProviderMap;
     }
     
 }
