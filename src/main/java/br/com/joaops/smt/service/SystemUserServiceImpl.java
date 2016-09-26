@@ -16,10 +16,14 @@
  */
 package br.com.joaops.smt.service;
 
+import br.com.joaops.smt.dto.SystemDatabaseDto;
 import br.com.joaops.smt.dto.SystemUserDto;
 import br.com.joaops.smt.dto.SystemUserFormDto;
+import br.com.joaops.smt.model.SystemDatabase;
 import br.com.joaops.smt.model.SystemUser;
+import br.com.joaops.smt.repository.SystemDatabaseRepository;
 import br.com.joaops.smt.repository.SystemUserRepository;
+import br.com.joaops.smt.util.DataBaseUtil;
 import java.util.ArrayList;
 import java.util.List;
 import org.dozer.Mapper;
@@ -45,6 +49,9 @@ public class SystemUserServiceImpl implements SystemUserService {
     private PasswordEncoder encoder;
     
     @Autowired
+    private SystemDatabaseService systemDatabaseService;
+    
+    @Autowired
     private Mapper mapper;
     
     @Override
@@ -67,9 +74,14 @@ public class SystemUserServiceImpl implements SystemUserService {
         user.setCredentialExpiration(sysuser.getCredentialExpiration());
         user.setCredentialCanExpire(sysuser.getCredentialCanExpire());
         user.setEnabled(sysuser.getEnabled());
+        SystemDatabaseDto systemDatabaseDto = systemDatabaseService.findOne(sysuser.getIdSystemDatabase());
+        SystemDatabase systemDatabase = new SystemDatabase();
+        mapper.map(systemDatabaseDto, systemDatabase);
+        user.setSystemDatabase(systemDatabase);
         user = repository.save(user);
         SystemUserDto userDto = new SystemUserDto();
         mapper.map(user, userDto);
+        DataBaseUtil.insertInitialValues(systemDatabaseDto, userDto);
         return userDto;
     }
     

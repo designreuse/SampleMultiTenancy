@@ -40,6 +40,7 @@ public class SystemUserFormDto implements Serializable {
     private Boolean credentialCanExpire = false;
     private Date credentialExpiration;
     private Boolean enabled = true;
+    private Long idSystemDatabase;
     
     public Long getId() {
         return id;
@@ -153,23 +154,32 @@ public class SystemUserFormDto implements Serializable {
         this.enabled = enabled;
     }
     
+    public Long getIdSystemDatabase() {
+        return idSystemDatabase;
+    }
+    
+    public void setIdSystemDatabase(Long idSystemDatabase) {
+        this.idSystemDatabase = idSystemDatabase;
+    }
+    
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 89 * hash + Objects.hashCode(this.id);
-        hash = 89 * hash + Objects.hashCode(this.firstName);
-        hash = 89 * hash + Objects.hashCode(this.middleName);
-        hash = 89 * hash + Objects.hashCode(this.lastName);
-        hash = 89 * hash + Objects.hashCode(this.email);
-        hash = 89 * hash + Objects.hashCode(this.confirmEmail);
-        hash = 89 * hash + Objects.hashCode(this.password);
-        hash = 89 * hash + Objects.hashCode(this.confirmPassword);
-        hash = 89 * hash + Objects.hashCode(this.accountCanExpire);
-        hash = 89 * hash + Objects.hashCode(this.accountExpiration);
-        hash = 89 * hash + Objects.hashCode(this.locked);
-        hash = 89 * hash + Objects.hashCode(this.credentialCanExpire);
-        hash = 89 * hash + Objects.hashCode(this.credentialExpiration);
-        hash = 89 * hash + Objects.hashCode(this.enabled);
+        int hash = 5;
+        hash = 29 * hash + Objects.hashCode(this.id);
+        hash = 29 * hash + Objects.hashCode(this.firstName);
+        hash = 29 * hash + Objects.hashCode(this.middleName);
+        hash = 29 * hash + Objects.hashCode(this.lastName);
+        hash = 29 * hash + Objects.hashCode(this.email);
+        hash = 29 * hash + Objects.hashCode(this.confirmEmail);
+        hash = 29 * hash + Objects.hashCode(this.password);
+        hash = 29 * hash + Objects.hashCode(this.confirmPassword);
+        hash = 29 * hash + Objects.hashCode(this.accountCanExpire);
+        hash = 29 * hash + Objects.hashCode(this.accountExpiration);
+        hash = 29 * hash + Objects.hashCode(this.locked);
+        hash = 29 * hash + Objects.hashCode(this.credentialCanExpire);
+        hash = 29 * hash + Objects.hashCode(this.credentialExpiration);
+        hash = 29 * hash + Objects.hashCode(this.enabled);
+        hash = 29 * hash + Objects.hashCode(this.idSystemDatabase);
         return hash;
     }
     
@@ -225,6 +235,9 @@ public class SystemUserFormDto implements Serializable {
             return false;
         }
         if (!Objects.equals(this.enabled, other.enabled)) {
+            return false;
+        }
+        if (!Objects.equals(this.idSystemDatabase, other.idSystemDatabase)) {
             return false;
         }
         return true;

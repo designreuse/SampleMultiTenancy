@@ -58,8 +58,8 @@ public class SystemDatabaseServiceImpl implements SystemDatabaseService {
         if (systemDatabase != null) {
             saved = new SystemDatabaseDto();
             mapper.map(systemDatabase, saved);
-            if (!DataBaseUtil.DatabaseExist(systemDatabase.getName())) {
-                DataBaseUtil.createDatabase(systemDatabase.getName());
+            if (!DataBaseUtil.DatabaseExist(saved.getName())) {
+                DataBaseUtil.createDatabase(saved);
                 MultiTenantConnectionProvider.getConnProviderMap().put(systemDatabase.getName(), new MyConnectionProviderImpl(systemDatabase.getName()));
             }
         }

@@ -77,6 +77,12 @@
                                         <p th:if="${#fields.hasErrors('enabled')}" th:errors="*{enabled}">enabled error</p> 
                                     </div>
                                 </div>
+                                <div>
+                                    <label th:text="'Database'">database</label>
+                                    <select th:field="${sysuser.idSystemDatabase}">
+                                        <option th:each="database : ${databases}" th:value="${database.id}" th:text="${database.name}">Database</option>
+                                    </select>
+                                </div>
                             </fieldset>
                             <div>
                                 <div>

@@ -18,6 +18,7 @@ package br.com.joaops.smt.controller;
 
 import br.com.joaops.smt.dto.SystemUserDto;
 import br.com.joaops.smt.dto.SystemUserFormDto;
+import br.com.joaops.smt.service.SystemDatabaseService;
 import br.com.joaops.smt.service.SystemUserService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -43,6 +44,9 @@ public class SystemUserController {
     @Autowired
     private SystemUserService systemUserService;
     
+    @Autowired
+    private SystemDatabaseService databaseService;
+    
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView index(HttpServletRequest request, HttpServletResponse response, Pageable p) {
         ModelAndView mav = new ModelAndView("/system/user/index");
@@ -55,6 +59,7 @@ public class SystemUserController {
     public ModelAndView add(HttpServletRequest request, HttpServletResponse response) {
         ModelAndView mav = new ModelAndView("/system/user/add");
         mav.addObject("sysuser", systemUserService.newSystemUser());
+        mav.addObject("databases", databaseService.searchAllSystemDatabase());
         return mav;
     }
     
